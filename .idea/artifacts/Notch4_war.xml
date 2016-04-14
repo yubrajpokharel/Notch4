@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Notch4:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="Notch4.war">
+      <element id="artifact" artifact-name="Notch4:war exploded" />
+    </root>
+  </artifact>
+</component>
