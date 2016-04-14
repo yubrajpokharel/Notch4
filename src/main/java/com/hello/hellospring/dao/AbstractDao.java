@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 
-
+@Transactional
 public abstract class AbstractDao<PK extends Serializable, T> {
 	
 	private final Class<T> persistentClass;
@@ -24,7 +24,7 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	@Transactional
+
 	protected Session getSession(){
 		return sessionFactory.getCurrentSession();
 	}

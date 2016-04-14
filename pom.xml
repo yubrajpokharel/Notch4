@@ -9,18 +9,15 @@
     <url>http://maven.apache.org</url>
 
     <properties>
-        <jdk.version>1.8</jdk.version>
-        <slf4j.version>1.6.6</slf4j.version>
-        <spring.security.version>3.2.3.RELEASE</spring.security.version>
         <springframework.version>4.2.0.RELEASE</springframework.version>
         <springsecurity.version>4.0.1.RELEASE</springsecurity.version>
         <hibernate.version>4.3.6.Final</hibernate.version>
         <mysql.connector.version>5.1.31</mysql.connector.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
-        <!-- DB related dependencies -->
+
+        <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -109,6 +106,7 @@
             <version>1.2</version>
         </dependency>
     </dependencies>
+
     <build>
         <finalName>Notch4</finalName>
     </build>
