@@ -9,7 +9,7 @@
 
 	<context:component-scan base-package="com.hello.hellospring" />
 	<context:property-placeholder location="classpath:application.properties" />
-	<tx:annotation-driven transaction-manager="transactionManager" />
+	<tx:annotation-driven />
 
 
 	<bean id="dataSource"
@@ -30,6 +30,7 @@
 		</property>
 		<property name="hibernateProperties">
 			<props>
+
 				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
 				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
 				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
