@@ -2,8 +2,11 @@ package com.hello.hellospring.model.posts;
 
 import com.hello.hellospring.model.State;
 import com.hello.hellospring.model.User;
+import org.hibernate.validator.constraints.Range;
+
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -12,33 +15,44 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name = "post")
+@Table(name = "POST")
 public class Post {
 
+    private static final int MIN_LEN = 10;
+    private static final int MAX_LEN = 150;
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
     @NotNull
-    @Column(name = "post", nullable = false)
+    @Column(name = "post")
+    @Range(min = MIN_LEN, max = MAX_LEN)
     private String post;
 
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    private String date_posted;
+    @Temporal(TemporalType.DATE)
+    private Date date_posted;
 
     @NotNull
-    @Column(name="STATE", nullable=false)
+    @Column(name="state", nullable=false)
     private String state= State.ACTIVE.getState();
 
+    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
-    private Date pickupDateTime;
+    private Date date_modofied;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinTable(name = "post",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "USER_ID") })
-    private User user = new User();
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public int getId() {
         return id;
@@ -56,11 +70,11 @@ public class Post {
         this.post = post;
     }
 
-    public String getDate_posted() {
+    public Date getDate_posted() {
         return date_posted;
     }
 
-    public void setDate_posted(String date_posted) {
+    public void setDate_posted(Date date_posted) {
         this.date_posted = date_posted;
     }
 
@@ -73,20 +87,13 @@ public class Post {
     }
 
     public Date getPickupDateTime() {
-        return pickupDateTime;
+        return date_modofied;
     }
 
     public void setPickupDateTime(Date pickupDateTime) {
-        this.pickupDateTime = pickupDateTime;
+        this.date_modofied = pickupDateTime;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -96,22 +103,20 @@ public class Post {
         Post post1 = (Post) o;
 
         if (id != post1.id) return false;
-        if (!post.equals(post1.post)) return false;
-        if (!date_posted.equals(post1.date_posted)) return false;
-        if (!state.equals(post1.state)) return false;
-        if (!pickupDateTime.equals(post1.pickupDateTime)) return false;
-        return user.equals(post1.user);
+        if (post != null ? !post.equals(post1.post) : post1.post != null) return false;
+        if (date_posted != null ? !date_posted.equals(post1.date_posted) : post1.date_posted != null) return false;
+        if (state != null ? !state.equals(post1.state) : post1.state != null) return false;
+        return date_modofied != null ? date_modofied.equals(post1.date_modofied) : post1.date_modofied == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + post.hashCode();
-        result = 31 * result + date_posted.hashCode();
-        result = 31 * result + state.hashCode();
-        result = 31 * result + pickupDateTime.hashCode();
-        result = 31 * result + user.hashCode();
+        result = 31 * result + (post != null ? post.hashCode() : 0);
+        result = 31 * result + (date_posted != null ? date_posted.hashCode() : 0);
+        result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + (date_modofied != null ? date_modofied.hashCode() : 0);
         return result;
     }
 }

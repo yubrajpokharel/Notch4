@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,6 +34,7 @@ public class HelloWorldController {
 	
 	@Autowired
 	UserService userService;
+
 	
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public String homePage(ModelMap model) {
@@ -43,7 +45,7 @@ public class HelloWorldController {
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String adminPage(ModelMap model) {
 		model.addAttribute("user", getPrincipal());
-		return "admin";
+        return "admin";
 	}
 
 	@RequestMapping(value = "/db", method = RequestMethod.GET)
@@ -112,7 +114,7 @@ public class HelloWorldController {
 
 	
 	
-	
+	//Getting User-Name
 	private String getPrincipal(){
 		String userName = null;
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -123,6 +125,15 @@ public class HelloWorldController {
 			userName = principal.toString();
 		}
 		return userName;
+	}
+
+
+    //Getting User-ID
+	private int getUserID(){
+        String userName = getPrincipal();
+        User user = userService.findBySso(userName);
+        System.out.println("Current User ID :" + user.getId());
+        return user.getId();
 	}
 	
 	
